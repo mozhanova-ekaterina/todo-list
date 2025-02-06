@@ -1,6 +1,6 @@
 "use client";
 import Header from "./components/Header";
-import Modal from "./components/Modal";
+import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { Task } from "./types";
@@ -45,7 +45,7 @@ export default function Home() {
       <Header />
       <Filters />
       <TaskList tasks={tasks} setTasks={setTasks} />
-      <Modal setTasks={setTasks}  />
+      <TaskForm setTasks={setTasks}  />
     </div>
   );
 }
@@ -60,50 +60,40 @@ const Filters = () => {
   );
 };
 
-// [Header]
-// | Logo |                  | [+] Добавить | [🌓] |
-
-// [Filters]
-// | [Все ▼] | [Поиск...] | [Сортировка: По дате ▼] |
-
-// [Task List]
-// - [ ] Важная задача              #работа 🔴 15 мая
-//   Описание задачи... ✏️ 🗑️
-// - [x] Купить продукты   #личное 🟢 14 мая ✏️ 🗑️
-
-// [Modal]
-// Добавить задачу
-// Название     [_______________]
-// Описание     [textarea]
-// Тег          [● Работа ● Личное]
-// Дедлайн      [📅 2024-05-20]
-// Приоритет    [🔴 🟡 🔵]
-// [Сохранить] [Отмена]
-
 // /todo-app
 //   /public
-//     index.html
+//     /icons
+//       add.svg
+//       delete.svg
+//     /images
+//       empty-state.png
 //     favicon.ico
 //   /src
 //     /components
 //       /TaskList
 //         TaskList.tsx
-//         TaskList.module.css
+//         TaskList.test.tsx
 //       /TaskItem
 //         TaskItem.tsx
-//         TaskItem.module.css
+//         TaskItem.test.tsx
 //       /TaskForm
 //         TaskForm.tsx
-//         TaskForm.module.css
+//         TaskForm.test.tsx
 //       /Modal
 //         Modal.tsx
-//         Modal.module.css
+//         Modal.test.tsx
 //       /Header
 //         Header.tsx
-//         Header.module.css
+//         Header.test.tsx
 //       /Footer
 //         Footer.tsx
-//         Footer.module.css
+//         Footer.test.tsx
+//     /pages
+//       /api
+//         tasks.ts
+//       index.tsx
+//       _app.tsx
+//       _document.tsx
 //     /stores
 //       taskStore.ts
 //       rootStore.ts
@@ -114,21 +104,14 @@ const Filters = () => {
 //       constants.ts
 //     /types
 //       taskTypes.ts
-//     /assets
-//       /icons
-//         add.svg
-//         delete.svg
-//       /images
-//         empty-state.png
 //     /styles
-//       global.css
-//       theme.css
-//     App.tsx
-//     index.tsx
-//     react-app-env.d.ts
-//   /config
-//     webpack.config.js
-//     tsconfig.json
+//       globals.css
+//     /layouts
+//       MainLayout.tsx
+//     /context
+//       ThemeContext.tsx
+//   /tailwind
+//     tailwind.config.js
 //   /tests
 //     /components
 //       TaskList.test.tsx
@@ -137,5 +120,9 @@ const Filters = () => {
 //       taskStore.test.ts
 //   .eslintrc
 //   .prettierrc
+//   next.config.js
+//   tsconfig.json
 //   package.json
 //   README.md
+
+
