@@ -8,7 +8,7 @@ export interface ITask {
   title: string;
   description?: string;
   tags: ITag[];
-  dueDate?: Date;
+  dueDate?: string | Date | undefined;
   isCompleted: boolean;
   priority: string;
   // priority: "low" | "medium" | "high";

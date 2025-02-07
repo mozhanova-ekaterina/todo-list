@@ -23,7 +23,7 @@ export default function UiTextArea({
       <div className="relative">
         <textarea
           id="textarea"
-          className="textarea max-w-sm input-floating peer"
+          className={clsx(["textarea max-w-sm input-floating peer", error ? 'is-invalid' : ''])}
           aria-label="Textarea"
           required={required}
           {...textareaProps}
@@ -35,9 +35,9 @@ export default function UiTextArea({
         )}
       </div>
       {(error || helperText) && (
-        <p className={clsx(["text-xs pl-2", error ? "text-red-400" : ""])}>
-          {error ?? helperText}
-        </p>
+        <div className="label">
+          <p className="label-text-alt">{error ?? helperText}</p>
+        </div>
       )}
     </div>
   );

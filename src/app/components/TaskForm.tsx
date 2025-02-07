@@ -5,6 +5,7 @@ import UiTextFiled from "./uikit/fields/UiTextFiled";
 import UiTextArea from "./uikit/fields/UiTextArea";
 import TagsBlock from "./TagsBlock";
 import UiDateField from "./uikit/fields/UiDateField";
+import UiPriorityField from "./uikit/fields/UiPriorityField";
 
 type Props = {
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
@@ -17,7 +18,7 @@ const initialTask = {
     { id: "1", name: "дом" },
     { id: "2", name: "работа" },
   ],
-  dueDate: new Date(),
+  dueDate: undefined,
   isCompleted: false,
   priority: "low",
 };
@@ -34,22 +35,21 @@ export default function TaskForm({ setTasks }: Props) {
     setNewTask({ ...initialTask, id: IdUnique() } as ITask);
   };
 
-  
-
   return (
     <form
       onSubmit={(e) => handleSubmit(e)}
       className="flex flex-col gap-3 p-5 border max-w-[400px]"
     >
       <h2>Добавить задачу</h2>
+
       <UiTextFiled
         value={newTask.title}
         placeholder=""
         label="Введите название задачи"
-        required //работает если form onSubmit 
+        required //работает если form onSubmit
         onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
         helperText="Не более 50 символов"
-        // error="error"???:
+        error="Поле должно быть заполнено"
       />
 
       <UiTextArea
@@ -61,20 +61,13 @@ export default function TaskForm({ setTasks }: Props) {
         }
         helperText="Не более 200 символов"
       />
+
       <TagsBlock setNewTask={setNewTask} newTask={newTask} />
 
       <UiDateField newTask={newTask} setNewTask={setNewTask} />
 
-      <div className="flex gap-2">
-        Приоритет
-        <select
-          onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
-        >
-          <option value="high">🔴</option>
-          <option value="medium">🟡</option>
-          <option value="low">🔵</option>
-        </select>
-      </div>
+      <UiPriorityField newTask={newTask} setNewTask={setNewTask} />
+
       <div className="flex gap-2">
         <button type="submit" className="border px-2">
           Сохранить

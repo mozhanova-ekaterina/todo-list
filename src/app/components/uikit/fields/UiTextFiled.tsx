@@ -35,7 +35,7 @@ export default function UiTextFiled({
         <input
           id="input"
           type={type}
-          className={clsx(["input input-floating peer", sizes[size]])}
+          className={clsx(["input input-floating peer", sizes[size], error ? "is-invalid" : ""])}
           aria-label="input"
           required={required}
           {...inputProps}
@@ -48,9 +48,11 @@ export default function UiTextFiled({
       </div>
 
       {(error || helperText) && (
-        <p className={clsx(["text-xs pl-2", error ? "text-red-400" : ""])}>
-          {error ?? helperText}
-        </p>
+        <div className="label">
+          <p className={clsx(["label-text-alt", error ? "text-red-400" : ""])}>
+            {error ?? helperText}
+          </p>
+        </div>
       )}
     </div>
   );
