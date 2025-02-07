@@ -1,95 +1,70 @@
 import { useState } from "react";
-import { Tag, Task } from "../types";
+import { ITask } from "../types";
 import { IdUnique } from "@/utils/helpers";
 import UiTextFiled from "./uikit/fields/UiTextFiled";
+import UiTextArea from "./uikit/fields/UiTextArea";
+import TagsBlock from "./TagsBlock";
+import UiDateField from "./uikit/fields/UiDateField";
 
 type Props = {
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
 };
 
 const initialTask = {
   title: "",
   description: "",
-  tags: [],
+  tags: [
+    { id: "1", name: "дом" },
+    { id: "2", name: "работа" },
+  ],
   dueDate: new Date(),
   isCompleted: false,
   priority: "low",
 };
 
 export default function TaskForm({ setTasks }: Props) {
-  const [tag, setTag] = useState<Tag>();
-  const [newTask, setNewTask] = useState<Task>({
+  const [newTask, setNewTask] = useState<ITask>({
     ...initialTask,
     id: IdUnique(),
-  } as Task);
+  } as ITask);
 
-  const tags = newTask.tags.map((tag) => `#${tag.name} `);
-
-  const addTask = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setTasks((prev) => [...prev, newTask]);
-    setNewTask({ ...initialTask, id: IdUnique() } as Task);
+    setNewTask({ ...initialTask, id: IdUnique() } as ITask);
   };
+
+  
 
   return (
     <form
-      onSubmit={(e) => addTask(e)}
+      onSubmit={(e) => handleSubmit(e)}
       className="flex flex-col gap-3 p-5 border max-w-[400px]"
     >
       <h2>Добавить задачу</h2>
       <UiTextFiled
         value={newTask.title}
-        placeholder="Введите название задачи"
-        label="Название"
-        type="text"
-        required
+        placeholder=""
+        label="Введите название задачи"
+        required //работает если form onSubmit 
         onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
         helperText="Не более 50 символов"
-        error={false}
+        // error="error"???:
       />
 
-      <div className="flex gap-2">
-        Описание
-        <textarea
-          className="border"
-          onChange={(e) =>
-            setNewTask({ ...newTask, description: e.target.value })
-          }
-        ></textarea>
-      </div>
-      <div className="flex gap-2">
-        Тег
-        <input
-          className="border"
-          type="text"
-          onChange={(e) =>
-            setTag({
-              id: IdUnique(),
-              name: e.target.value,
-            })
-          }
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              setNewTask({
-                ...newTask,
-                tags: [...newTask.tags, tag!],
-              });
-              e.currentTarget.value = "";
-            }
-          }}
-        />
-        <div className="flex gap-1">{tags}</div>
-      </div>
-      <div className="flex gap-2">
-        Дедлайн
-        <input
-          type="date"
-          onChange={(e) =>
-            setNewTask({ ...newTask, dueDate: new Date(e.target.value) })
-          }
-        />
-        ;
-      </div>
+      <UiTextArea
+        value={newTask.description}
+        placeholder=""
+        label="Описание"
+        onChange={(e) =>
+          setNewTask({ ...newTask, description: e.target.value })
+        }
+        helperText="Не более 200 символов"
+      />
+      <TagsBlock setNewTask={setNewTask} newTask={newTask} />
+
+      <UiDateField newTask={newTask} setNewTask={setNewTask} />
+
       <div className="flex gap-2">
         Приоритет
         <select
@@ -101,7 +76,7 @@ export default function TaskForm({ setTasks }: Props) {
         </select>
       </div>
       <div className="flex gap-2">
-        <button className="border px-2" type="submit">
+        <button type="submit" className="border px-2">
           Сохранить
         </button>
       </div>

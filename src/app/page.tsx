@@ -3,9 +3,9 @@ import Header from "./components/Header";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import { useLocalStorage } from "./hooks/useLocalStorage";
-import { Task } from "./types";
+import { ITask } from "./types";
 
-const data: Task[] = [
+const data: ITask[] = [
   {
     id: "1",
     title: "Важная задача",
@@ -59,70 +59,5 @@ const Filters = () => {
     </div>
   );
 };
-
-// /todo-app
-//   /public
-//     /icons
-//       add.svg
-//       delete.svg
-//     /images
-//       empty-state.png
-//     favicon.ico
-//   /src
-//     /components
-//       /TaskList
-//         TaskList.tsx
-//         TaskList.test.tsx
-//       /TaskItem
-//         TaskItem.tsx
-//         TaskItem.test.tsx
-//       /TaskForm
-//         TaskForm.tsx
-//         TaskForm.test.tsx
-//       /Modal
-//         Modal.tsx
-//         Modal.test.tsx
-//       /Header
-//         Header.tsx
-//         Header.test.tsx
-//       /Footer
-//         Footer.tsx
-//         Footer.test.tsx
-//     /pages
-//       /api
-//         tasks.ts
-//       index.tsx
-//       _app.tsx
-//       _document.tsx
-//     /stores
-//       taskStore.ts
-//       rootStore.ts
-//     /hooks
-//       useLocalStorage.ts
-//     /utils
-//       helpers.ts
-//       constants.ts
-//     /types
-//       taskTypes.ts
-//     /styles
-//       globals.css
-//     /layouts
-//       MainLayout.tsx
-//     /context
-//       ThemeContext.tsx
-//   /tailwind
-//     tailwind.config.js
-//   /tests
-//     /components
-//       TaskList.test.tsx
-//       TaskItem.test.tsx
-//     /stores
-//       taskStore.test.ts
-//   .eslintrc
-//   .prettierrc
-//   next.config.js
-//   tsconfig.json
-//   package.json
-//   README.md
 
 

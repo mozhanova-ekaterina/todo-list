@@ -1,10 +1,10 @@
 import { ChangeEvent } from "react";
-import { Task } from "../types";
+import { ITask } from "../types";
 import TaskItem from "./TaskItem";
 
 type Props = {
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  tasks: ITask[];
+  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
 };
 
 export default function TaskList({ tasks, setTasks }: Props) {

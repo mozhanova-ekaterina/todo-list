@@ -1,14 +1,15 @@
-export interface Tag {
+export interface ITag {
   id: string;
   name: string;
 }
 
-export interface Task {
+export interface ITask {
   id: string;
   title: string;
   description?: string;
-  tags: Tag[];
+  tags: ITag[];
   dueDate?: Date;
   isCompleted: boolean;
-  priority: "low" | "medium" | "high";
+  priority: string;
+  // priority: "low" | "medium" | "high";
 }

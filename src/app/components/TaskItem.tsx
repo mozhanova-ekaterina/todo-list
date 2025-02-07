@@ -1,8 +1,8 @@
 import { ChangeEvent } from "react";
-import { Task } from "../types";
+import { ITask } from "../types";
 
 type Props = {
-  task: Task;
+  task: ITask;
   switchTaskComplete: (e: ChangeEvent<HTMLInputElement>, id: string) => void;
   deleteTask: (id: string) => void;
   editTask: (id: string) => void;
