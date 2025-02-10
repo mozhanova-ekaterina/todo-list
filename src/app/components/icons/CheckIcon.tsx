@@ -1,9 +1,6 @@
 import { SVGProps } from "react";
 
-
-export function DeleteIcon(
-  props: SVGProps<SVGSVGElement>
-) {
+export function CheckIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +11,7 @@ export function DeleteIcon(
     >
       <path
         fill="currentColor"
-        d="M6 20V6H5V5h4v-.77h6V5h4v1h-1v14zm1-1h10V6H7zm2.808-2h1V8h-1zm3.384 0h1V8h-1zM7 6v13z"
+        d="m9.55 15.15l8.475-8.475q.3-.3.7-.3t.7.3t.3.713t-.3.712l-9.175 9.2q-.3.3-.7.3t-.7-.3L4.55 13q-.3-.3-.288-.712t.313-.713t.713-.3t.712.3z"
       ></path>
     </svg>
   );

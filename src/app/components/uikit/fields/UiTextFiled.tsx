@@ -1,8 +1,9 @@
 import clsx from "clsx";
 
 const sizes = {
+  default: "",
   xs: "input-xs",
-  md: "input-sm",
+  sm: "input-sm",
   lg: "input-lg",
 };
 
@@ -26,7 +27,7 @@ export default function UiTextFiled({
   required = false,
   helperText,
   error,
-  size = "md",
+  size = 'default',
   ...inputProps
 }: Props) {
   return (
@@ -49,7 +50,7 @@ export default function UiTextFiled({
 
       {(error || helperText) && (
         <div className="label">
-          <p className={clsx(["label-text-alt", error ? "text-red-400" : ""])}>
+          <p className="label-text-alt">
             {error ?? helperText}
           </p>
         </div>

@@ -40,5 +40,5 @@ export default function TaskList({ tasks, setTasks }: Props) {
     />
   ));
 
-  return <div className="flex flex-col gap-3 px-5">{taskList}</div>;
+  return <div className="flex flex-col gap-3">{taskList}</div>;
 }

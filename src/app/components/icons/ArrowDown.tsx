@@ -1,7 +1,6 @@
 import { SVGProps } from "react";
 
-
-export function DeleteIcon(
+export function ArrowDown(
   props: SVGProps<SVGSVGElement>
 ) {
   return (
@@ -14,7 +13,7 @@ export function DeleteIcon(
     >
       <path
         fill="currentColor"
-        d="M6 20V6H5V5h4v-.77h6V5h4v1h-1v14zm1-1h10V6H7zm2.808-2h1V8h-1zm3.384 0h1V8h-1zM7 6v13z"
+        d="M12 14.975q-.2 0-.375-.062T11.3 14.7l-4.6-4.6q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l3.9 3.9l3.9-3.9q.275-.275.7-.275t.7.275t.275.7t-.275.7l-4.6 4.6q-.15.15-.325.213t-.375.062"
       ></path>
     </svg>
   );

@@ -67,7 +67,7 @@ function Tag({
   const [isHovered, setIsHovered] = useState(false);
   return (
     <span
-      className="text-sm relative bg-purple-500 py-1 px-2 text-white rounded-lg animate-slide-up"
+      className="badge badge-soft badge-primary animate-slide-up relative"
       key={tag.id}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -79,7 +79,10 @@ function Tag({
           isHovered ? "opacity-100" : "opacity-0",
         ])}
       >
-        <DeleteIcon className="text-gray-600" onClick={() => deleteTag(tag.id)} />
+        <DeleteIcon
+          className="text-gray-600"
+          onClick={() => deleteTag(tag.id)}
+        />
       </div>
     </span>
   );

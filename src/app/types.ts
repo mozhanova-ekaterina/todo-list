@@ -3,6 +3,8 @@ export interface ITag {
   name: string;
 }
 
+export type TFilter = "all" | "active" | "completed" | "today" | "overdue";
+
 export interface ITask {
   id: string;
   title: string;
