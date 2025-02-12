@@ -2,16 +2,24 @@ import flatpickr from "flatpickr";
 import { Russian } from "flatpickr/dist/l10n/ru";
 import { useEffect, useRef } from "react";
 import { ITask } from "@/app/types";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import UiTextFiled from "./UiTextFiled";
 
-
-type Props = {
-  newTask: ITask;
-  setNewTask: React.Dispatch<React.SetStateAction<ITask>>;
+const sizes = {
+  default: "default",
+  xs: "xs",
 };
 
-export default function UiDateField({ newTask, setNewTask }: Props) {
+type Props = {
+  task: ITask;
+  size?: keyof typeof sizes;
+  setTask: React.Dispatch<React.SetStateAction<ITask>>;
+};
+
+export default function UiDateField({
+  task,
+  setTask,
+  size = "default",
+}: Props) {
   const datePickerRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -20,33 +28,30 @@ export default function UiDateField({ newTask, setNewTask }: Props) {
         dateFormat: "Y-m-d",
         minDate: "today",
         enableTime: true,
-        defaultDate: undefined,
+        defaultDate: task.dueDate,
         locale: Russian,
         onChange: (selectedDates) => {
-          setNewTask({
-            ...newTask,
-            dueDate: format(selectedDates[0], "dd MMMM yyyy HH:mm", {locale: ru}),
+          setTask({
+            ...task,
+            dueDate: selectedDates[0],
           });
         },
       });
     }
-  }, [newTask, setNewTask]);
+  }, [task, setTask]);
+
   return (
-    <div className="relative mt-2">
-      <input
-        id="date"
-        type="text"
-        placeholder=""
+    <div className="relative">
+      <UiTextFiled
+        id={task.id}
         ref={datePickerRef}
-        className="input input-floating peer"
+        label="Дедлайн"
+        placeholder=""
+        size={size}
       />
-      <label htmlFor="date" className="input-floating-label">
-        Дедлайн
-      </label>
     </div>
   );
 }
-
 
 // import { differenceInDays, differenceInHours } from 'date-fns';
 
@@ -61,7 +66,6 @@ export default function UiDateField({ newTask, setNewTask }: Props) {
 // const today = new Date();
 // const tomorrow = addDays(today, 1); // Завтра
 // const twoHoursAgo = subHours(today, 2); // 2 часа назад
-
 
 //!!!: РЕАЛИЗОВАТЬ
 //убрать показ времени в таске, если онго не выбрано пользоветелем

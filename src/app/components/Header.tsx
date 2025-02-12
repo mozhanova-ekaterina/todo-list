@@ -1,18 +1,14 @@
 import { Raleway } from "next/font/google";
-import UiButton from "./uikit/UiButton";
-import { CheckIcon } from "./icons/CheckIcon";
 
 const raleway = Raleway({ subsets: ["latin"], style: "italic" });
 
-type Props = { setIsAdding: React.Dispatch<React.SetStateAction<boolean>> };
-
-export default function Header({ setIsAdding }: Props) {
+export default function Header() {
   return (
     <div className="flex py-5 justify-between items-end">
       <Logo />
-      <UiButton onClick={() => setIsAdding(true)} icon={<CheckIcon />}>
+      {/* <UiButton onClick={() => setIsAdding(true)} icon={<CheckIcon />}>
         Новая задача
-      </UiButton>
+      </UiButton> */}
     </div>
   );
 }

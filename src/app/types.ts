@@ -10,8 +10,11 @@ export interface ITask {
   title: string;
   description?: string;
   tags: ITag[];
-  dueDate?: string | Date | undefined;
+  dueDate: string | Date;
   isCompleted: boolean;
-  priority: string;
-  // priority: "low" | "medium" | "high";
+  priority: "low" | "medium" | "high";
 }
+
+// export type TInitialTask = Omit<ITask, "id" | "isCompleted">;
+// export interface InitialTask extends Omit<ITask, "id" | "isCompleted"> {}
+

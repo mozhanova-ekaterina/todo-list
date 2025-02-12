@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { ITag, ITask } from "../types";
 import UiTextFiled from "./uikit/fields/UiTextFiled";
-import { IdUnique } from "@/utils/helpers";
-import { DeleteIcon } from "./icons/DeleteIcon";
-import clsx from "clsx";
+import { v4 as uuid } from "uuid";
+import Tag from "./uikit/UiTag";
 
 type Props = {
   setNewTask: React.Dispatch<React.SetStateAction<ITask>>;
-  newTask: ITask;
+  newTask: ITask
 };
 
 export default function TagsBlock({ setNewTask, newTask }: Props) {
@@ -42,7 +41,7 @@ export default function TagsBlock({ setNewTask, newTask }: Props) {
         placeholder=""
         onChange={(e) =>
           setTag({
-            id: IdUnique(),
+            id: uuid(),
             name: e.target.value.trim(),
           })
         }
@@ -57,33 +56,4 @@ export default function TagsBlock({ setNewTask, newTask }: Props) {
   );
 }
 
-function Tag({
-  tag,
-  deleteTag,
-}: {
-  tag: ITag;
-  deleteTag: (id: string) => void;
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-  return (
-    <span
-      className="badge badge-soft badge-primary animate-slide-up relative"
-      key={tag.id}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      #{tag.name}
-      <div
-        className={clsx([
-          "absolute right-[-10px] bottom-[-10px] rounded-full bg-white p-1 border z-10 cursor-pointer transition-all",
-          isHovered ? "opacity-100" : "opacity-0",
-        ])}
-      >
-        <DeleteIcon
-          className="text-gray-600"
-          onClick={() => deleteTag(tag.id)}
-        />
-      </div>
-    </span>
-  );
-}
+

@@ -21,6 +21,7 @@ export default {
         "slide-up": "slideUp 0.5s ease-out",
         'spin-slow': 'spin .9s linear',
         'slide-left': 'slideLeft 0.5s ease-out',
+        'spread': 'spread 0.5s ease-out',
       },
       keyframes: {
         slideUp: {
@@ -34,6 +35,10 @@ export default {
         slideLeft: {
           "0%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0)" },
+        },
+        spread: {
+          "0%": { transform: "scale(0)" },
+          "100%": { transform: "scale(1)" },
         },
       },
     },

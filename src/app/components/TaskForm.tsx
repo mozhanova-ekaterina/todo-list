@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { ITask } from "../types";
-import { IdUnique } from "@/utils/helpers";
 import UiTextFiled from "./uikit/fields/UiTextFiled";
 import UiTextArea from "./uikit/fields/UiTextArea";
 import TagsBlock from "./TagsBlock";
@@ -8,47 +5,32 @@ import UiDateField from "./uikit/fields/UiDateField";
 import UiPriorityField from "./uikit/fields/UiPriorityField";
 import UiButton from "./uikit/UiButton";
 import { ListIcon } from "./icons/ListIcon";
+import taskStore from "../stores/taskStore";
+import { observer } from "mobx-react-lite";
+import { useState } from "react";
+import { ITask } from "../types";
+import { v4 as uuid } from "uuid";
 
-type Props = {
-  setTasks: React.Dispatch<React.SetStateAction<ITask[]>>;
-  setIsAdding: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const initialTask = {
+const initialTask: ITask = {
+  id: uuid(),
   title: "",
   description: "",
-  tags: [
-    // { id: "1", name: "дом" },
-    // { id: "2", name: "работа" },
-  ],
-  dueDate: undefined,
+  tags: [],
+  dueDate: '',
+  priority: "medium",
   isCompleted: false,
-  priority: "low",
 };
 
-export default function TaskForm({ setTasks, setIsAdding }: Props) {
-  const [newTask, setNewTask] = useState<ITask>({
-    ...initialTask,
-    id: IdUnique(),
-  } as ITask);
+export default observer(function TaskForm() {
+  const [newTask, setNewTask] = useState<ITask>(initialTask);
 
   const handleSubmit = () => {
-    setTasks((prev) => [...prev, newTask]);
-    setNewTask({ ...initialTask, id: IdUnique() } as ITask);
+    taskStore.addTask(newTask);
+    setNewTask(initialTask);
   };
 
   return (
-    <form
-      className="flex flex-col gap-3 p-5 border relative animate-slide-left"
-    >
-      {/* <UiButton
-        className="absolute top-2 right-5"
-        onClick={() => setIsAdding(false)}
-        size="xs"
-        variant="text"
-      >
-        Закрыть
-      </UiButton> */}
+    <form className="flex flex-col gap-3 p-5 border relative animate-slide-left">
       <h2>Добавить задачу</h2>
 
       <UiTextFiled
@@ -73,7 +55,7 @@ export default function TaskForm({ setTasks, setIsAdding }: Props) {
 
       <TagsBlock setNewTask={setNewTask} newTask={newTask} />
 
-      <UiDateField newTask={newTask} setNewTask={setNewTask} />
+      <UiDateField task={newTask} setTask={setNewTask} />
 
       <UiPriorityField
         newTask={newTask}
@@ -85,4 +67,4 @@ export default function TaskForm({ setTasks, setIsAdding }: Props) {
       </UiButton>
     </form>
   );
-}
+});

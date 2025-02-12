@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { Task } from "../types";
+import { ITask } from "../types";
 
-export const useLocalStorage = (key: string, initialValue: Task[]) => {
+export const useLocalStorage = (key: string, initialValue: ITask[]) => {
   // Загрузка данных из localStorage
   const storedValue = localStorage.getItem(key);
   const initial = storedValue ? JSON.parse(storedValue) : initialValue;
 
   // Состояние для задач
-  const [tasks, setTasks] = useState<Task[]>(initial);
+  const [tasks, setTasks] = useState<ITask[]>(initial);
 
   // Сохранение задач в localStorage при изменении
   useEffect(() => {

@@ -8,6 +8,7 @@ const sizes = {
 };
 
 type Props = {
+  id?: string;
   value?: string;
   ref?: React.RefObject<HTMLInputElement | null>;
   label?: string;
@@ -17,6 +18,7 @@ type Props = {
   error?: string;
   type?: React.HTMLInputTypeAttribute;
   size?: keyof typeof sizes;
+  className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
@@ -28,21 +30,23 @@ export default function UiTextFiled({
   helperText,
   error,
   size = 'default',
+  id = 'input',
+  className,
   ...inputProps
 }: Props) {
   return (
     <div className="flex flex-col gap-1 relative">
       <div className="relative">
         <input
-          id="input"
+          id={id}
           type={type}
-          className={clsx(["input input-floating peer", sizes[size], error ? "is-invalid" : ""])}
+          className={clsx(["input input-floating peer", sizes[size], error ? "is-invalid" : "", className])}
           aria-label="input"
           required={required}
           {...inputProps}
         />
-        {label && (
-          <label htmlFor="input" className="input-floating-label">
+        {label && size !== "xs" && (
+          <label htmlFor={id} className="input-floating-label">
             {label}
           </label>
         )}

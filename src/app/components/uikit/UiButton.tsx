@@ -20,6 +20,7 @@ const colors = {
   success: "btn-success",
   error: "btn-error",
   accent: "btn-accent",
+  primary: "btn-primary",
   default: "",
 };
 
@@ -33,6 +34,7 @@ type Props = {
   icon?: React.ReactNode;
   children?: React.ReactNode;
   color?: keyof typeof colors;
+  ref?: React.Ref<HTMLButtonElement>;
   onClick?: () => void;
 };
 

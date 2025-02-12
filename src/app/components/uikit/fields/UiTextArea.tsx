@@ -23,11 +23,14 @@ export default function UiTextArea({
       <div className="relative">
         <textarea
           id="textarea"
-          className={clsx(["textarea max-w-sm input-floating peer", error ? 'is-invalid' : ''])}
+          className={clsx([
+            "textarea input-floating peer",
+            error ? "is-invalid" : "",
+          ])}
           aria-label="Textarea"
           required={required}
           {...textareaProps}
-        ></textarea>
+        />
         {label && (
           <label htmlFor="textarea" className="input-floating-label">
             {label}
