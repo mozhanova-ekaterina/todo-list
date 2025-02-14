@@ -4,14 +4,14 @@ import { useEffect, useRef } from "react";
 import { ITask } from "@/app/types";
 import UiTextFiled from "./UiTextFiled";
 
-const sizes = {
+type TSizes = {
   default: "default",
   xs: "xs",
-};
+} ;
 
 type Props = {
   task: ITask;
-  size?: keyof typeof sizes;
+  size?: keyof TSizes;
   setTask: React.Dispatch<React.SetStateAction<ITask>>;
 };
 
@@ -26,7 +26,7 @@ export default function UiDateField({
     if (datePickerRef.current) {
       flatpickr(datePickerRef.current, {
         dateFormat: "Y-m-d",
-        minDate: "today",
+        // minDate: "today",
         enableTime: true,
         defaultDate: task.dueDate,
         locale: Russian,

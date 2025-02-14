@@ -6,16 +6,24 @@ import { DeleteIcon } from "../icons/DeleteIcon";
 export default function Tag({
   tag,
   deleteTag,
-  editable
+  editable,
+  className,
+  onClick,
 }: {
   tag: ITag;
   editable?: boolean;
+  className?: string;
   deleteTag?: (id: string) => void;
+  onClick?: () => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <span
-      className="badge badge-soft badge-primary animate-slide-up relative"
+      onClick={onClick}
+      className={clsx(
+        "badge badge-soft badge-primary animate-slide-up relative",
+        className
+      )}
       key={tag.id}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

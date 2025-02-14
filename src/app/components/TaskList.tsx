@@ -20,13 +20,16 @@ export default observer(function TaskList() {
     />
   ));
 
+  console.log(taskStore.filteredTasks);
+  
+
   return (
     <div className="flex flex-col gap-3 py-4">
       {taskList}
-      {taskStore.completedTasksList.length > 0 && (
+      {/* {taskStore.completedTasksList.length > 0 && (
         <div className="divider divider-primary">Выполненные</div>
       )}
-      {completedTasksList}
+      {completedTasksList} */}
     </div>
   );
 });

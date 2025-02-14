@@ -10,7 +10,7 @@ export interface ITask {
   title: string;
   description?: string;
   tags: ITag[];
-  dueDate: string | Date;
+  dueDate: Date | '';
   isCompleted: boolean;
   priority: "low" | "medium" | "high";
 }

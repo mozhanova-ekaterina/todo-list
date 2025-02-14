@@ -12,7 +12,7 @@ import { ITask } from "../types";
 import { v4 as uuid } from "uuid";
 
 const initialTask: ITask = {
-  id: uuid(),
+  id: '',
   title: "",
   description: "",
   tags: [],
@@ -25,7 +25,7 @@ export default observer(function TaskForm() {
   const [newTask, setNewTask] = useState<ITask>(initialTask);
 
   const handleSubmit = () => {
-    taskStore.addTask(newTask);
+    taskStore.addTask({...newTask, id: uuid()});
     setNewTask(initialTask);
   };
 

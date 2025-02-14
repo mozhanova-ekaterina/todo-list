@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { ITag, ITask, TFilter } from "../types";
+import { isBefore, isToday, startOfDay } from "date-fns";
 
 class TaskStore {
   tasks: ITask[] = [];
@@ -61,6 +62,8 @@ class TaskStore {
   };
 
   get filteredTasks() {
+    const now = startOfDay(new Date());
+
     return this.tasks.filter((task) => {
       const matchesStatus =
         this.currentFilter === "all" ||
@@ -71,11 +74,20 @@ class TaskStore {
         this.selectedTags.length === 0 ||
         (task.tags && task.tags.some((tag) => this.selectedTags.includes(tag)));
 
-      const matchesSearch = task.title
-        .toLowerCase()
-        .includes(this.searchQuery.toLowerCase());
+      const matchesSearch =
+        this.searchQuery === "" ||
+        task.title.toLowerCase().includes(this.searchQuery.toLowerCase());
 
-      return matchesStatus && matchesTags && matchesSearch;
+      const matchesToday =
+        this.currentFilter === "today" && task.dueDate && isToday(task.dueDate);
+
+      const matchesOverdue =
+        task.dueDate &&
+        this.currentFilter === "overdue" &&
+        isBefore(task.dueDate, now) &&
+        !task.isCompleted;
+
+      return matchesStatus && matchesTags && matchesSearch || matchesToday || matchesOverdue;
     });
   }
 

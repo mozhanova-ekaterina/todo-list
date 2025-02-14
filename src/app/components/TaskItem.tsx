@@ -13,12 +13,11 @@ import { AddIcon } from "./icons/AddIcon";
 import { v4 as uuid } from "uuid";
 import Tag from "./uikit/UiTag";
 import UiDateField from "./uikit/fields/UiDateField";
-import { format } from "date-fns";
+import { differenceInMinutes, format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 type Props = {
   task: ITask;
-  isTimerRunningOut?: boolean;
   toggleTaskCompletion: (id: string) => void;
   deleteTask: (id: string) => void;
 };
@@ -27,7 +26,6 @@ export default observer(function TaskItem({
   task,
   toggleTaskCompletion,
   deleteTask,
-  isTimerRunningOut = true,
 }: Props) {
   const [editable, setEditable] = useState(false);
   const [modifiedTask, setModifiedTask] = useState<ITask>(task);
@@ -55,10 +53,15 @@ export default observer(function TaskItem({
     });
   };
 
+  const timeToLeft = differenceInMinutes(task.dueDate, new Date());
+  const isTimerRunningOut = timeToLeft <= 120;
+  
   return (
     <div key={task.id} className="card card-compact">
       {isTimerRunningOut && (
-        <div className="alert alert-error alert-soft p-1">Осталось 2ч</div>
+        <div className="alert alert-error alert-soft p-1">
+          Осталось {timeToLeft} минут(ы)
+        </div>
       )}
       <div className="card-body gap-3">
         <div className="flex gap-2 items-center justify-between">
@@ -107,9 +110,10 @@ export default observer(function TaskItem({
           </div>
           {!editable ? (
             <div>
-              {format(task.dueDate, "dd MMMM yyyy HH:mm", {
-                locale: ru,
-              })}
+              {task.dueDate &&
+                format(task.dueDate, "dd MMMM yyyy HH:mm", {
+                  locale: ru,
+                })}
             </div>
           ) : (
             <UiDateField
