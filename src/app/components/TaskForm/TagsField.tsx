@@ -1,15 +1,15 @@
+import { ITag, ITask } from "@/app/types";
 import { useState } from "react";
-import { ITag, ITask } from "../types";
-import UiTextFiled from "./uikit/fields/UiTextFiled";
 import { v4 as uuid } from "uuid";
-import Tag from "./uikit/UiTag";
+import { UiTag, UiTextFiled } from "../uikit";
 
 type Props = {
   setNewTask: React.Dispatch<React.SetStateAction<ITask>>;
-  newTask: ITask
+  newTask: ITask;
+  editable?: boolean;
 };
 
-export default function TagsBlock({ setNewTask, newTask }: Props) {
+export default function TagsField({ setNewTask, newTask, editable }: Props) {
   const [tag, setTag] = useState<ITag>({
     id: "",
     name: "",
@@ -36,9 +36,7 @@ export default function TagsBlock({ setNewTask, newTask }: Props) {
     <div className="flex gap-2 flex-col">
       <UiTextFiled
         value={tag.name}
-        type="text"
         label="Теги"
-        placeholder=""
         onChange={(e) =>
           setTag({
             id: uuid(),
@@ -49,11 +47,14 @@ export default function TagsBlock({ setNewTask, newTask }: Props) {
       />
       <div className="flex gap-2">
         {newTask.tags.map((tag) => (
-          <Tag key={tag.id} tag={tag} deleteTag={deleteTag} />
+          <UiTag
+            key={tag.id}
+            tag={tag}
+            editable={editable}
+            deleteTag={deleteTag}
+          />
         ))}
       </div>
     </div>
   );
 }
-
-

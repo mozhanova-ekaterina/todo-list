@@ -9,7 +9,7 @@ const sizes = {
 };
 
 const variants = {
-  primary: "btn-primary",
+  solid: "",
   outline: "btn-outline",
   text: "btn-text",
   soft: "btn-soft",
@@ -38,9 +38,9 @@ type Props = {
   onClick?: () => void;
 };
 
-export default function UiButton({
+export function UiButton({
   id,
-  variant = "primary",
+  variant = "solid",
   size = "default",
   type = "button",
   color = "default",

@@ -1,10 +1,9 @@
 import { ITag, TFilter } from "../types";
 import SearchInput from "./SearchInput";
-import UiButton from "./uikit/UiButton";
 import taskStore from "../stores/taskStore";
-import Tag from "./uikit/UiTag";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
+import { UiButton, UiTag } from "./uikit";
 
 export default observer(function TaskFilters() {
   const filters: TFilter[] = ["all", "today", "active", "completed", "overdue"];
@@ -21,7 +20,7 @@ export default observer(function TaskFilters() {
         {filters.map((filter) => (
           <UiButton
             onClick={() => taskStore.setFilter(filter)}
-            variant="outline"
+            variant={taskStore.currentFilter === filter ? "solid" : "outline"}
             color={defineColor(filter)}
             size="sm"
             key={filter}
@@ -34,19 +33,33 @@ export default observer(function TaskFilters() {
           </UiButton>
         ))}
       </div>
+
       <div className="flex gap-2">
         {taskStore.tasks
           .map((task) => task.tags)
           .flat()
           .map((tag) => (
-            <Tag
+            <UiTag
               className="cursor-pointer"
               key={tag.id}
               tag={tag}
-              onClick={() => setSelectedTags([...selectedTags, tag])}
+              variant={selectedTags.includes(tag) ? "soft" : "outline"}
+              onClick={() =>
+                selectedTags.includes(tag)
+                  ? setSelectedTags(selectedTags.filter((t) => t.id !== tag.id))
+                  : setSelectedTags([...selectedTags, tag])
+              }
             />
           ))}
-          <UiButton size="xs" variant="soft" color="default" onClick={() => setSelectedTags([])}>Сбросить теги</UiButton>
+        {selectedTags.length > 0 && (
+          <UiButton
+            size="xs"
+            variant="soft"
+            onClick={() => setSelectedTags([])}
+          >
+            Сбросить
+          </UiButton>
+        )}
       </div>
     </>
   );

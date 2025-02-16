@@ -2,12 +2,14 @@ import flatpickr from "flatpickr";
 import { Russian } from "flatpickr/dist/l10n/ru";
 import { useEffect, useRef } from "react";
 import { ITask } from "@/app/types";
-import UiTextFiled from "./UiTextFiled";
+import { CloseIcon } from "../icons/CloseIcon";
+import { UiTextFiled } from "./UiTextFiled";
+import { UiButton } from "../UiButton";
 
 type TSizes = {
-  default: "default",
-  xs: "xs",
-} ;
+  default: "default";
+  xs: "xs";
+};
 
 type Props = {
   task: ITask;
@@ -15,11 +17,7 @@ type Props = {
   setTask: React.Dispatch<React.SetStateAction<ITask>>;
 };
 
-export default function UiDateField({
-  task,
-  setTask,
-  size = "default",
-}: Props) {
+export function UiDateField({ task, setTask, size = "default" }: Props) {
   const datePickerRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -48,7 +46,18 @@ export default function UiDateField({
         label="Дедлайн"
         placeholder=""
         size={size}
+        value={task.dueDate.toString()}
       />
+      {task.dueDate && (
+        <UiButton
+          variant="text"
+          color="primary"
+          className="absolute right-0 top-0"
+          icon={<CloseIcon />}
+          size={size}
+          onClick={() => setTask({ ...task, dueDate: "" })}
+        />
+      )}
     </div>
   );
 }

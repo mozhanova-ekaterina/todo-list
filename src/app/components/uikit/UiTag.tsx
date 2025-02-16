@@ -1,27 +1,44 @@
 import { ITag } from "@/app/types";
 import clsx from "clsx";
 import { useState } from "react";
-import { DeleteIcon } from "../icons/DeleteIcon";
+import { DeleteIcon } from "./icons/DeleteIcon";
 
-export default function Tag({
+const variants = {
+  soft: "badge-soft",
+  primary: "badge-primary",
+  outline: "badge-outline",
+};
+
+const colors = {
+  primary: "badge-primary",
+};
+
+export function UiTag({
   tag,
   deleteTag,
   editable,
+  variant = "soft",
+  color = "primary",
   className,
   onClick,
 }: {
   tag: ITag;
   editable?: boolean;
   className?: string;
+  variant?: keyof typeof variants;
+  color?: keyof typeof colors;
   deleteTag?: (id: string) => void;
   onClick?: () => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+
   return (
     <span
       onClick={onClick}
       className={clsx(
-        "badge badge-soft badge-primary animate-slide-up relative",
+        "badge animate-slide-up relative",
+        variants[variant],
+        colors[color],
         className
       )}
       key={tag.id}

@@ -1,20 +1,13 @@
 import { ITask } from "../types";
-import UiButton from "./uikit/UiButton";
-import { EditIcon } from "./icons/EditIcon";
-import { DeleteIcon } from "./icons/DeleteIcon";
-import { ArrowDown } from "./icons/ArrowDown";
 import clsx from "clsx";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import taskStore from "../stores/taskStore";
-import UiTextFiled from "./uikit/fields/UiTextFiled";
-import UiTextArea from "./uikit/fields/UiTextArea";
-import { AddIcon } from "./icons/AddIcon";
 import { v4 as uuid } from "uuid";
-import Tag from "./uikit/UiTag";
-import UiDateField from "./uikit/fields/UiDateField";
 import { differenceInMinutes, format } from "date-fns";
 import { ru } from "date-fns/locale";
+import { UiButton, UiDateField, UiTag, UiTextArea, UiTextFiled } from "./uikit";
+import { AddIcon, ArrowDown, DeleteIcon, EditIcon } from "./uikit/icons";
 
 type Props = {
   task: ITask;
@@ -55,7 +48,7 @@ export default observer(function TaskItem({
 
   const timeToLeft = differenceInMinutes(task.dueDate, new Date());
   const isTimerRunningOut = timeToLeft <= 120;
-  
+
   return (
     <div key={task.id} className="card card-compact">
       {isTimerRunningOut && (
@@ -99,8 +92,6 @@ export default observer(function TaskItem({
                 size="xs"
                 className="collapse-toggle btn btn-primary"
                 id="basic-collapse"
-                aria-expanded="false"
-                aria-controls="basic-collapse-heading"
                 data-collapse={`#collapse-${task.id}`}
               >
                 Описание
@@ -116,18 +107,20 @@ export default observer(function TaskItem({
                 })}
             </div>
           ) : (
-            <UiDateField
-              setTask={setModifiedTask}
-              task={modifiedTask}
-              size="xs"
-            />
+            <div className="flex gap-2">
+              <span>Дедлайн:</span>
+              <UiDateField
+                setTask={setModifiedTask}
+                task={modifiedTask}
+                size="xs"
+              />
+            </div>
           )}
         </div>
         {task.description && (
           <div
             id={`collapse-${task.id}`}
             className="collapse hidden w-full overflow-hidden transition-[height] duration-300"
-            aria-labelledby="basic-collapse"
           >
             <div className="bg-primary/20 rounded-md p-3 flex flex-col">
               {!editable ? (
@@ -146,7 +139,7 @@ export default observer(function TaskItem({
         <div className="flex gap-2 justify-between items-center">
           <div className="flex gap-2">
             {modifiedTask.tags.map((tag) => (
-              <Tag
+              <UiTag
                 tag={tag}
                 key={tag.id}
                 editable={editable}
@@ -204,3 +197,6 @@ export default observer(function TaskItem({
     </div>
   );
 });
+
+//TODO:
+//при редактировании таски возможность убать дедлайн

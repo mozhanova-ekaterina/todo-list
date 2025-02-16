@@ -5,15 +5,12 @@ type Props = {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   value?: string;
   label?: string;
-  placeholder?: string;
-  required?: boolean;
   helperText?: string;
   error?: string;
 };
 
-export default function UiTextArea({
+export function UiTextArea({
   label,
-  required = false,
   helperText,
   error,
   ...textareaProps
@@ -22,17 +19,16 @@ export default function UiTextArea({
     <div className="flex gap-2 flex-col">
       <div className="relative">
         <textarea
-          id="textarea"
+          id="form-textarea"
+          placeholder=""
           className={clsx([
-            "textarea input-floating peer",
+            "textarea textarea-floating peer",
             error ? "is-invalid" : "",
           ])}
-          aria-label="Textarea"
-          required={required}
           {...textareaProps}
         />
         {label && (
-          <label htmlFor="textarea" className="input-floating-label">
+          <label htmlFor="form-textarea" className="textarea-floating-label">
             {label}
           </label>
         )}

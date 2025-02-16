@@ -12,25 +12,24 @@ type Props = {
   value?: string;
   ref?: React.RefObject<HTMLInputElement | null>;
   label?: string;
-  placeholder?: string;
   required?: boolean;
   helperText?: string;
   error?: string;
-  type?: React.HTMLInputTypeAttribute;
+  type?: 'text' | 'search';
   size?: keyof typeof sizes;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
-export default function UiTextFiled({
+export function UiTextFiled({
   type = "text",
   label,
   required = false,
   helperText,
   error,
-  size = 'default',
-  id = 'input',
+  size = "default",
+  id = "input",
   className,
   ...inputProps
 }: Props) {
@@ -40,8 +39,13 @@ export default function UiTextFiled({
         <input
           id={id}
           type={type}
-          className={clsx(["input input-floating peer", sizes[size], error ? "is-invalid" : "", className])}
-          aria-label="input"
+          placeholder=''
+          className={clsx([
+            "input input-floating peer",
+            sizes[size],
+            error ? "is-invalid" : "",
+            className,
+          ])}
           required={required}
           {...inputProps}
         />
@@ -54,9 +58,7 @@ export default function UiTextFiled({
 
       {(error || helperText) && (
         <div className="label">
-          <p className="label-text-alt">
-            {error ?? helperText}
-          </p>
+          <p className="label-text-alt">{error ?? helperText}</p>
         </div>
       )}
     </div>

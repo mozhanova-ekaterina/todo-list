@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import UiTextFiled from "./uikit/fields/UiTextFiled";
 import taskStore from "../stores/taskStore";
 import { observer } from "mobx-react-lite";
+import { UiTextFiled } from "./uikit";
 
 export default observer(function SearchInput() {
   const [value, setValue] = useState<string>(taskStore.searchQuery);

@@ -18,10 +18,7 @@ export default observer(function TaskList() {
       deleteTask={taskStore.deleteTask}
       toggleTaskCompletion={taskStore.toggleTaskCompletion}
     />
-  ));
-
-  console.log(taskStore.filteredTasks);
-  
+  ));  
 
   return (
     <div className="flex flex-col gap-3 py-4">
