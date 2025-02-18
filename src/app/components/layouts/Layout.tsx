@@ -13,7 +13,7 @@ export const Layout = ({ header, footer, children, aside }: Props) => {
         {children}
         {footer}
       </div>
-      <div className="grow">{aside}</div>
+      <div className="grow max-w-[30%] border-l px-3 pt-5">{aside}</div>
     </div>
   );
 };

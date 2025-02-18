@@ -18,15 +18,15 @@ export default observer(function TaskList() {
       deleteTask={taskStore.deleteTask}
       toggleTaskCompletion={taskStore.toggleTaskCompletion}
     />
-  ));  
+  ));
 
   return (
-    <div className="flex flex-col gap-3 py-4">
+    <div className="flex flex-col gap-4 py-4">
       {taskList}
-      {/* {taskStore.completedTasksList.length > 0 && (
+      {taskStore.completedTasksList.length > 0 && (
         <div className="divider divider-primary">Выполненные</div>
       )}
-      {completedTasksList} */}
+      {taskStore.currentFilter === "all" && completedTasksList}
     </div>
   );
 });

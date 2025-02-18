@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import taskStore from "../stores/taskStore";
 import { v4 as uuid } from "uuid";
-import { differenceInMinutes, format } from "date-fns";
+import { format, isToday } from "date-fns";
 import { ru } from "date-fns/locale";
 import { UiButton, UiDateField, UiTag, UiTextArea, UiTextFiled } from "./uikit";
 import { AddIcon, ArrowDown, DeleteIcon, EditIcon } from "./uikit/icons";
@@ -46,16 +46,30 @@ export default observer(function TaskItem({
     });
   };
 
-  const timeToLeft = differenceInMinutes(task.dueDate, new Date());
-  const isTimerRunningOut = timeToLeft <= 120;
+  const timeIsRunningOut = () => task.dueDate && isToday(task.dueDate);
+
+  const defineDateMessage = () => {
+    if (taskStore.overdueTaskList.includes(task)) {
+      return "Срок истек!";
+    }
+    return "Срок истекает сегодня!";
+  };
 
   return (
     <div key={task.id} className="card card-compact">
-      {isTimerRunningOut && (
+      {!task.isCompleted && timeIsRunningOut() && (
         <div className="alert alert-error alert-soft p-1">
-          Осталось {timeToLeft} минут(ы)
+          {defineDateMessage()}
         </div>
       )}
+      <div
+        className={clsx([
+          "absolute mx-auto w-[20px] h-[100%] right-[-7px] top-0 rounded-md z-[-1]",
+          task.priority === "high" && " bg-error/80",
+          task.priority === "medium" && " bg-warning/80",
+          task.priority === "low" && " bg-success/80",
+        ])}
+      ></div>
       <div className="card-body gap-3">
         <div className="flex gap-2 items-center justify-between">
           <div className="flex gap-2 items-center">
@@ -85,7 +99,7 @@ export default observer(function TaskItem({
                 }
               />
             )}
-            {task.description && (
+            {(task.description || editable) && (
               <UiButton
                 type="button"
                 variant="outline"
@@ -99,14 +113,8 @@ export default observer(function TaskItem({
               </UiButton>
             )}
           </div>
-          {!editable ? (
-            <div>
-              {task.dueDate &&
-                format(task.dueDate, "dd MMMM yyyy HH:mm", {
-                  locale: ru,
-                })}
-            </div>
-          ) : (
+
+          {editable ? (
             <div className="flex gap-2">
               <span>Дедлайн:</span>
               <UiDateField
@@ -115,27 +123,35 @@ export default observer(function TaskItem({
                 size="xs"
               />
             </div>
+          ) : (
+            <div>
+              {task.dueDate &&
+                format(task.dueDate, "dd MMMM yyyy HH:mm", {
+                  locale: ru,
+                })}
+            </div>
           )}
         </div>
-        {task.description && (
+
+        {
           <div
             id={`collapse-${task.id}`}
             className="collapse hidden w-full overflow-hidden transition-[height] duration-300"
           >
             <div className="bg-primary/20 rounded-md p-3 flex flex-col">
-              {!editable ? (
-                <p className="text-primary">{task.description}</p>
-              ) : (
+              {editable ? (
                 <UiTextArea
-                  value={modifiedTask.description}
+                  value={modifiedTask.description ?? ""}
                   onChange={(e) =>
                     setModifiedTask({ ...task, description: e.target.value })
                   }
                 />
+              ) : (
+                <p className="text-primary">{task.description}</p>
               )}
             </div>
           </div>
-        )}
+        }
         <div className="flex gap-2 justify-between items-center">
           <div className="flex gap-2">
             {modifiedTask.tags.map((tag) => (
@@ -168,14 +184,7 @@ export default observer(function TaskItem({
           </div>
 
           <div className="flex gap-2">
-            {!editable ? (
-              <span
-                onClick={() => setEditable(!editable)}
-                className="badge badge-primary size-6 p-0 cursor-pointer"
-              >
-                <EditIcon />
-              </span>
-            ) : (
+            {editable ? (
               <UiButton
                 size="xs"
                 variant="soft"
@@ -184,6 +193,13 @@ export default observer(function TaskItem({
               >
                 Сохранить
               </UiButton>
+            ) : (
+              <span
+                onClick={() => setEditable(!editable)}
+                className="badge badge-primary size-6 p-0 cursor-pointer"
+              >
+                <EditIcon />
+              </span>
             )}
             <span
               onClick={() => deleteTask(task.id)}
@@ -197,6 +213,3 @@ export default observer(function TaskItem({
     </div>
   );
 });
-
-//TODO:
-//при редактировании таски возможность убать дедлайн

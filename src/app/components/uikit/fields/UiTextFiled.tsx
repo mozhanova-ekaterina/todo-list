@@ -12,10 +12,9 @@ type Props = {
   value?: string;
   ref?: React.RefObject<HTMLInputElement | null>;
   label?: string;
-  required?: boolean;
   helperText?: string;
   error?: string;
-  type?: 'text' | 'search';
+  type?: "text" | "search";
   size?: keyof typeof sizes;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -25,7 +24,6 @@ type Props = {
 export function UiTextFiled({
   type = "text",
   label,
-  required = false,
   helperText,
   error,
   size = "default",
@@ -46,7 +44,6 @@ export function UiTextFiled({
             error ? "is-invalid" : "",
             className,
           ])}
-          required={required}
           {...inputProps}
         />
         {label && size !== "xs" && (

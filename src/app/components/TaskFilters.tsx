@@ -13,6 +13,9 @@ export default observer(function TaskFilters() {
     taskStore.setSelectedTags(selectedTags);
   }, [selectedTags]);
 
+  console.log(taskStore.tagsList[0]);
+  
+
   return (
     <>
       <div className="flex gap-2 py-2">
@@ -35,22 +38,19 @@ export default observer(function TaskFilters() {
       </div>
 
       <div className="flex gap-2">
-        {taskStore.tasks
-          .map((task) => task.tags)
-          .flat()
-          .map((tag) => (
-            <UiTag
-              className="cursor-pointer"
-              key={tag.id}
-              tag={tag}
-              variant={selectedTags.includes(tag) ? "soft" : "outline"}
-              onClick={() =>
-                selectedTags.includes(tag)
-                  ? setSelectedTags(selectedTags.filter((t) => t.id !== tag.id))
-                  : setSelectedTags([...selectedTags, tag])
-              }
-            />
-          ))}
+        {taskStore.tagsList.map((tag) => (
+          <UiTag
+            className="cursor-pointer"
+            key={tag.id}
+            tag={tag}
+            variant={selectedTags.includes(tag) ? "soft" : "outline"}
+            onClick={() =>
+              selectedTags.includes(tag)
+                ? setSelectedTags(selectedTags.filter((t) => t.id !== tag.id))
+                : setSelectedTags([...selectedTags, tag])
+            }
+          />
+        ))}
         {selectedTags.length > 0 && (
           <UiButton
             size="xs"

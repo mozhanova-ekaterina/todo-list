@@ -24,7 +24,7 @@ export function UiDateField({ task, setTask, size = "default" }: Props) {
     if (datePickerRef.current) {
       flatpickr(datePickerRef.current, {
         dateFormat: "Y-m-d",
-        // minDate: "today",
+        minDate: "today",
         enableTime: true,
         defaultDate: task.dueDate,
         locale: Russian,
@@ -44,7 +44,6 @@ export function UiDateField({ task, setTask, size = "default" }: Props) {
         id={task.id}
         ref={datePickerRef}
         label="Дедлайн"
-        placeholder=""
         size={size}
         value={task.dueDate.toString()}
       />

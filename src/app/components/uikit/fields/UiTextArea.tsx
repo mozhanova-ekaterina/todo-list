@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 
 type Props = {
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   value?: string;
   label?: string;
   helperText?: string;

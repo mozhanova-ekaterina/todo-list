@@ -1,5 +1,4 @@
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import TagsField from "./TagsField";
 import { ITask } from "@/app/types";
@@ -13,6 +12,8 @@ import {
 } from "../uikit";
 import { AddIcon, ListIcon, MinusIcon } from "../uikit/icons";
 import { Layout } from "./Layout";
+import { useState } from "react";
+import { useValidation } from "@/app/hooks/useValidation";
 
 const initialTask: ITask = {
   id: "",
@@ -26,10 +27,14 @@ const initialTask: ITask = {
 
 export default observer(function TaskForm() {
   const [newTask, setNewTask] = useState<ITask>(initialTask);
+  const { validateForm, resetErrors, errors } = useValidation();
 
-  const handleSubmit = () => {
-    taskStore.addTask({ ...newTask, id: uuid() });
+  const handleSubmit = (task: ITask) => {
+    if (!validateForm(task)) return;
+
+    taskStore.addTask({ ...task, id: uuid() });
     setNewTask(initialTask);
+    resetErrors();
   };
 
   return (
@@ -40,7 +45,8 @@ export default observer(function TaskForm() {
           value={newTask.title}
           label="Введите название задачи"
           onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-          helperText="Не более 50 символов"
+          helperText={"Не более 50 символов"}
+          error={errors.title}
         />
       }
       descriptionField={
@@ -51,6 +57,7 @@ export default observer(function TaskForm() {
             setNewTask({ ...newTask, description: e.target.value })
           }
           helperText="Не более 200 символов"
+          error={errors.description}
         />
       }
       tagsField={
@@ -76,7 +83,11 @@ export default observer(function TaskForm() {
             <MinusIcon className="hidden collapse-open:block" />
           </UiButton>
 
-          <UiButton color="primary" onClick={handleSubmit} icon={<ListIcon />}>
+          <UiButton
+            color="primary"
+            onClick={() => handleSubmit(newTask)}
+            icon={<ListIcon />}
+          >
             Добавить
           </UiButton>
         </>

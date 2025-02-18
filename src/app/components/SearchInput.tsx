@@ -15,7 +15,6 @@ export default observer(function SearchInput() {
       size="sm"
       label="Поиск..."
       type="search"
-      placeholder=""
       value={value}
       onChange={(e) => setValue(e.target.value)}
     />
