@@ -16,6 +16,7 @@ export interface ITask {
 export type TSortKey = "priority" | "dueDate" | "none";
 export type TSortOrder = "asc" | "desc";
 export type TFilter = "all" | "active" | "completed" | "today" | "overdue";
+export type TPriority = "low" | "medium" | "high";
 
 // export type TInitialTask = Omit<ITask, "id" | "isCompleted">;
 // export interface InitialTask extends Omit<ITask, "id" | "isCompleted"> {}

@@ -14,6 +14,7 @@ import { AddIcon, ListIcon, MinusIcon } from "../uikit/icons";
 import { Layout } from "./Layout";
 import { useState } from "react";
 import { useValidation } from "@/app/hooks/useValidation";
+import { selectPriorityOptions } from "@/constants/constants";
 
 const initialTask: ITask = {
   id: "",
@@ -45,7 +46,7 @@ export default observer(function TaskForm() {
           value={newTask.title}
           label="Введите название задачи"
           onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-          helperText={"Не более 50 символов"}
+          helperText="Не более 50 символов"
           error={errors.title}
         />
       }
@@ -66,9 +67,10 @@ export default observer(function TaskForm() {
       dueDateField={<UiDateField task={newTask} setTask={setNewTask} />}
       priorityField={
         <UiPriorityField
-          newTask={newTask}
-          setNewTask={setNewTask}
+          value={newTask.priority}
+          options={selectPriorityOptions}
           label="Приоритет"
+          onChange={(value) => setNewTask({ ...newTask, priority: value })}
         />
       }
       actions={

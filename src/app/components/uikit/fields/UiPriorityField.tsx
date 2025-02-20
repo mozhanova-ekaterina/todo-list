@@ -1,32 +1,47 @@
-import { ITask } from "@/app/types";
+import { TPriority } from "@/app/types";
+import clsx from "clsx";
 
-type Props = {
-  newTask: ITask;
-  setNewTask: React.Dispatch<React.SetStateAction<ITask>>;
-  label: string;
+const sizes = {
+  default: "",
+  xs: "select-xs",
 };
 
-export function UiPriorityField({ newTask, setNewTask, label }: Props) {
+type Props = {
+  value: string;
+  label?: string;
+  size?: keyof typeof sizes;
+  className?: string;
+  options: { value: string; label: string }[];
+  onChange: (value: TPriority) => void;
+};
+
+export function UiPriorityField({
+  label,
+  value,
+  options,
+  onChange,
+  className,
+  size = "default",
+}: Props) {
   return (
-    <div className="flex gap-2 flex-col relative mt-2">
+    <div className="relative">
       <select
         id="select-priority"
-        className="select select-floating"
-        value={newTask.priority}
-        onChange={(e) =>
-          setNewTask({
-            ...newTask,
-            priority: e.target.value as "high" | "medium" | "low",
-          })
-        }
+        className={clsx(["select select-floating", className, sizes[size]])}
+        value={value}
+        onChange={(e) => onChange(e.target.value as TPriority)}
       >
-        <option value="high">Высокий</option>
-        <option value="medium">Средний</option>
-        <option value="low">Низкий</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
-      <label htmlFor="select-priority" className="select-floating-label">
-        {label}
-      </label>
+      {size != "xs" && label && (
+        <label htmlFor="select-priority" className="select-floating-label">
+          {label}
+        </label>
+      )}
     </div>
   );
 }

@@ -56,7 +56,7 @@ export function UiTextFiled({
 
       {(error || helperText) && (
         <div className="label">
-          <p className="label-text-alt">{error ?? helperText}</p>
+          <p className="label-text-alt">{error || helperText}</p>
         </div>
       )}
     </div>

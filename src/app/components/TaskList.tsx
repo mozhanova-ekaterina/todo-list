@@ -1,4 +1,4 @@
-import TaskItem from "./TaskItem";
+import TaskItem from "./TaskItem/index";
 import { observer } from "mobx-react-lite";
 import taskStore from "../stores/taskStore";
 

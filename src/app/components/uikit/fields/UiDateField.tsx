@@ -1,12 +1,11 @@
 import flatpickr from "flatpickr";
 import { Russian } from "flatpickr/dist/l10n/ru";
 import { useEffect, useRef } from "react";
-import { ITask } from "@/app/types";
 import { CloseIcon } from "../icons/CloseIcon";
 import { UiTextFiled } from "./UiTextFiled";
 import { UiButton } from "../UiButton";
-import { format } from "date-fns";
-import { ru } from "date-fns/locale";
+import { ITask } from "@/app/types";
+import { dateFormat } from "@/utils/helpers";
 
 type TSizes = {
   default: "default";
@@ -14,12 +13,18 @@ type TSizes = {
 };
 
 type Props = {
-  task: ITask;
   size?: keyof TSizes;
+  id?: string;
+  task: ITask;
   setTask: React.Dispatch<React.SetStateAction<ITask>>;
 };
 
-export function UiDateField({ task, setTask, size = "default" }: Props) {
+export function UiDateField({
+  size = "default",
+  id = "picker-date",
+  task,
+  setTask,
+}: Props) {
   const datePickerRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -31,28 +36,21 @@ export function UiDateField({ task, setTask, size = "default" }: Props) {
         defaultDate: task.dueDate,
         locale: Russian,
         onChange: (selectedDates) => {
-          setTask({
-            ...task,
-            dueDate: selectedDates[0],
-          });
+          setTask((prev: ITask) => ({ ...prev, dueDate: selectedDates[0] }));
         },
       });
     }
-  }, [task, setTask]);
+  }, [task.dueDate, setTask]);
 
   return (
     <div className="relative">
       <UiTextFiled
-        id={task.id}
+        id={id}
         ref={datePickerRef}
-        label="Дедлайн"
         size={size}
+        label="Дедлайн"
         readOnly
-        value={
-          task.dueDate
-            ? format(task.dueDate, "dd MMMM yyyy HH:mm", { locale: ru })
-            : ""
-        }
+        value={task.dueDate ? dateFormat(task.dueDate) : ""}
       />
       {task.dueDate && (
         <UiButton
@@ -61,30 +59,9 @@ export function UiDateField({ task, setTask, size = "default" }: Props) {
           className="absolute right-0 top-0"
           icon={<CloseIcon />}
           size={size}
-          onClick={() => setTask({ ...task, dueDate: "" })}
+          onClick={() => setTask((prev: ITask) => ({ ...prev, dueDate: "" }))}
         />
       )}
     </div>
   );
 }
-
-// import { differenceInDays, differenceInHours } from 'date-fns';
-
-// const start = new Date(2023, 9, 1); // 1 октября 2023
-// const end = new Date(2023, 9, 5); // 5 октября 2023
-
-// console.log(differenceInDays(end, start)); // 4 (дня)
-// console.log(differenceInHours(end, start)); // 96 (часов)
-
-// import { addDays, subHours } from 'date-fns';
-
-// const today = new Date();
-// const tomorrow = addDays(today, 1); // Завтра
-// const twoHoursAgo = subHours(today, 2); // 2 часа назад
-
-//!!!: РЕАЛИЗОВАТЬ
-//убрать показ времени в таске, если онго не выбрано пользоветелем
-// если до дедлайна остаётся мало времени, то таска подсвечивается
-//так же показывается сколько времени осталось, с точностью до минуты
-//добавить возможность отложить дедлайн до определённого времени
-//настройка, за какое время до дедлайна начинает подсвечивается таска

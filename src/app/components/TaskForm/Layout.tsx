@@ -24,7 +24,7 @@ export const Layout = ({
       {titleField}
       <div
         id="form-collapse"
-        className="flex flex-col gap-3 px-1 py-2 collapse hidden overflow-hidden transition-[height] duration-300"
+        className="flex flex-col gap-4 px-1 py-2 collapse hidden overflow-hidden transition-[height] duration-300"
       >
         {descriptionField}
         {tagsField}
