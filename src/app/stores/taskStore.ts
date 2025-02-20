@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { ITag, ITask, TFilter } from "../types";
+import { ITag, ITask, TSortKey, TSortOrder, TFilter } from "../types";
 import { differenceInMinutes, isToday } from "date-fns";
 
 class TaskStore {
@@ -7,6 +7,8 @@ class TaskStore {
   currentFilter: TFilter = "all";
   selectedTags: ITag[] = [];
   searchQuery: string = "";
+  sortKey: TSortKey = "none";
+  sortOrder: TSortOrder = "asc";
 
   constructor() {
     makeAutoObservable(this);
@@ -25,6 +27,17 @@ class TaskStore {
 
   private saveToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(this.tasks));
+  }
+
+  private sortByPriority(a: ITask, b: ITask) {
+    const priorityOrder = { low: 1, medium: 2, high: 3 };
+    return priorityOrder[a.priority] - priorityOrder[b.priority];
+  }
+
+  private sortByDate(a: ITask, b: ITask) {
+    const dateA = new Date(a.dueDate).getTime() || Infinity;
+    const dateB = new Date(b.dueDate).getTime() || Infinity;
+    return dateA - dateB;
   }
 
   addTask = (task: ITask) => {
@@ -61,10 +74,39 @@ class TaskStore {
     this.selectedTags = tags;
   };
 
+  setSorting = (key: TSortKey) => {
+    if (this.sortKey === key) {
+      this.sortOrder = this.sortOrder === "asc" ? "desc" : "asc";
+    } else {
+      this.sortKey = key;
+      this.sortOrder = "asc";
+    }
+  };
+
+  get sortedTasks() {
+    const sorted = [...this.filteredTasks];
+    if (this.sortKey === "none") return sorted;
+
+    return sorted.sort((a, b) => {
+      const modifier = this.sortOrder === "asc" ? 1 : -1;
+
+      switch (this.sortKey) {
+        case "priority":
+          return this.sortByPriority(a, b) * modifier;
+
+        case "dueDate":
+          return this.sortByDate(a, b) * modifier;
+
+        default:
+          return 0;
+      }
+    });
+  }
+
   get filteredTasks() {
     return this.tasks.filter((task) => {
       const matchesStatus =
-        this.currentFilter === "all" && !task.isCompleted ||
+        (this.currentFilter === "all" && !task.isCompleted) ||
         (this.currentFilter === "active" && !task.isCompleted) ||
         (this.currentFilter === "completed" && task.isCompleted);
 

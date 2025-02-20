@@ -8,6 +8,7 @@ import { format, isToday } from "date-fns";
 import { ru } from "date-fns/locale";
 import { UiButton, UiDateField, UiTag, UiTextArea, UiTextFiled } from "./uikit";
 import { AddIcon, ArrowDown, DeleteIcon, EditIcon } from "./uikit/icons";
+import { AlarmIcon } from "./uikit/icons/AlarmIcon";
 
 type Props = {
   task: ITask;
@@ -50,26 +51,20 @@ export default observer(function TaskItem({
 
   const defineDateMessage = () => {
     if (taskStore.overdueTaskList.includes(task)) {
-      return "Срок истек!";
+      return "Срок истек ";
     }
-    return "Срок истекает сегодня!";
+    return "Срок истекает сегодня ";
   };
+  console.log("render task item");
 
   return (
     <div key={task.id} className="card card-compact">
       {!task.isCompleted && timeIsRunningOut() && (
-        <div className="alert alert-error alert-soft p-1">
+        <div className="alert alert-error alert-soft p-1 flex gap-2 items-center">
           {defineDateMessage()}
+          <AlarmIcon />
         </div>
       )}
-      <div
-        className={clsx([
-          "absolute mx-auto w-[20px] h-[100%] right-[-7px] top-0 rounded-md z-[-1]",
-          task.priority === "high" && " bg-error/80",
-          task.priority === "medium" && " bg-warning/80",
-          task.priority === "low" && " bg-success/80",
-        ])}
-      ></div>
       <div className="card-body gap-3">
         <div className="flex gap-2 items-center justify-between">
           <div className="flex gap-2 items-center">
@@ -81,15 +76,18 @@ export default observer(function TaskItem({
               className="checkbox checkbox-primary"
             />
             {!editable ? (
-              <label
-                htmlFor={task.id}
-                className={clsx([
-                  "label label-text ",
-                  task.isCompleted && "line-through",
-                ])}
-              >
-                {task.title}
-              </label>
+              <>
+                <label
+                  htmlFor={task.id}
+                  className={clsx([
+                    "label label-text ",
+                    task.isCompleted && "line-through",
+                  ])}
+                >
+                  {task.title}
+                </label>
+                <span className="badge badge-primary rounded-full"></span>
+              </>
             ) : (
               <UiTextFiled
                 value={modifiedTask.title}
@@ -111,6 +109,25 @@ export default observer(function TaskItem({
                 Описание
                 <ArrowDown className="collapse-open:rotate-180" />
               </UiButton>
+            )}
+            {editable && (
+              <div className="relative">
+                <select
+                  value={modifiedTask.priority}
+                  className="select select-xs w-[120px]"
+                  onChange={(e) =>
+                    setModifiedTask({
+                      ...task,
+                      priority: e.target.value as "high" | "medium" | "low",
+                    })
+                  }
+                  id="change-priority"
+                >
+                  <option value="high">Высокий</option>
+                  <option value="medium">Средний</option>
+                  <option value="low">Низкий</option>
+                </select>
+              </div>
             )}
           </div>
 

@@ -5,6 +5,8 @@ import { ITask } from "@/app/types";
 import { CloseIcon } from "../icons/CloseIcon";
 import { UiTextFiled } from "./UiTextFiled";
 import { UiButton } from "../UiButton";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 
 type TSizes = {
   default: "default";
@@ -45,7 +47,12 @@ export function UiDateField({ task, setTask, size = "default" }: Props) {
         ref={datePickerRef}
         label="Дедлайн"
         size={size}
-        value={task.dueDate.toString()}
+        readOnly
+        value={
+          task.dueDate
+            ? format(task.dueDate, "dd MMMM yyyy HH:mm", { locale: ru })
+            : ""
+        }
       />
       {task.dueDate && (
         <UiButton
