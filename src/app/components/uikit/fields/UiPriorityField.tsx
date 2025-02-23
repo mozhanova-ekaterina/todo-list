@@ -15,7 +15,7 @@ type Props = {
   onChange: (value: TPriority) => void;
 };
 
-export function UiPriorityField({
+export function UiSelectField({
   label,
   value,
   options,

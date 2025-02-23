@@ -1,9 +1,10 @@
 import { ITask } from "@/app/types";
-import { UiButton, UiDateField, UiPriorityField, UiTextFiled } from "../uikit";
-import { ArrowDown } from "../uikit/icons";
+import { UiDateField, UiSelectField, UiTextFiled } from "../uikit";
+import { PriorityHighIcon } from "../uikit/icons";
 import { UiCheckbox } from "../uikit/index";
 import { selectPriorityOptions } from "@/constants/constants";
 import { dateFormat } from "@/utils/helpers";
+import clsx from "clsx";
 
 type Props = {
   task: ITask;
@@ -41,22 +42,8 @@ export function HeaderSection({
             label={task.title}
           />
         )}
-        {(task.description || editable) && (
-          <UiButton
-            type="button"
-            variant="outline"
-            color="primary"
-            size="xs"
-            className="collapse-toggle"
-            id="description-collapse"
-            data-collapse={`#collapse-${task.id}`}
-          >
-            Описание
-            <ArrowDown className="collapse-open:rotate-180" />
-          </UiButton>
-        )}
         {editable && (
-          <UiPriorityField
+          <UiSelectField
             size="xs"
             value={modifiedTask.priority}
             onChange={onPriorityChange}
@@ -64,6 +51,15 @@ export function HeaderSection({
             className="w-[120px]"
           />
         )}
+        <span
+          className={clsx({
+            "text-error": modifiedTask.priority === "high",
+            "text-accent": modifiedTask.priority === "medium",
+            "text-success": modifiedTask.priority === "low",
+          })}
+        >
+          <PriorityHighIcon />
+        </span>
       </div>
 
       {editable ? (

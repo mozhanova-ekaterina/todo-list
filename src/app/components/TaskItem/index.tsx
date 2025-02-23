@@ -56,12 +56,10 @@ export default observer(function TaskItem({
 
   const isDueToday = task.dueDate && isToday(task.dueDate);
   const isOverdue = taskStore.overdueTaskList.includes(task);
-
-  console.log("render task item");
-
+  
   return (
     <div key={task.id} className="card card-compact">
-      <DueDateWarning isDueToday={!!isDueToday} isOverdue={isOverdue} />
+      <DueDateWarning isDueToday={!!isDueToday} isOverdue={isOverdue} isCompleted={task.isCompleted} />
 
       <div className="card-body gap-3">
         <HeaderSection

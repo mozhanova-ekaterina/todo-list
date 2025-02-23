@@ -18,10 +18,7 @@ export default observer(function TaskFilters() {
 
   useEffect(() => {
     taskStore.setSelectedTags(selectedTags);
-  }, [selectedTags]);
-
-  console.log('render task filters');
-  
+  }, [selectedTags]);  
 
   return (
     <>

@@ -20,10 +20,10 @@ export const useValidation = () => {
       });
       isValid = false;
     }
-    if (task.description && task.description?.length > 200) {
+    if (task.description && task.description?.trim().length > 500) {
       setErrors({
         ...errors,
-        description: "Описание не должно превышать 200 символов",
+        description: "Описание не должно превышать 500 символов",
       });
       isValid = false;
     }

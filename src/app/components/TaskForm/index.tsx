@@ -6,7 +6,7 @@ import taskStore from "@/app/stores/taskStore";
 import {
   UiButton,
   UiDateField,
-  UiPriorityField,
+  UiSelectField,
   UiTextArea,
   UiTextFiled,
 } from "../uikit";
@@ -66,7 +66,7 @@ export default observer(function TaskForm() {
       }
       dueDateField={<UiDateField task={newTask} setTask={setNewTask} />}
       priorityField={
-        <UiPriorityField
+        <UiSelectField
           value={newTask.priority}
           options={selectPriorityOptions}
           label="Приоритет"

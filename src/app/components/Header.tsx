@@ -1,14 +1,13 @@
 import { Raleway } from "next/font/google";
+import ThemeToggle from "./ThemeToggle";
 
 const raleway = Raleway({ subsets: ["latin"], style: "italic" });
 
 export default function Header() {
   return (
-    <div className="flex py-5 justify-between items-end">
+    <div className="flex py-5 justify-between items-center">
       <Logo />
-      {/* <UiButton onClick={() => setIsAdding(true)} icon={<CheckIcon />}>
-        Новая задача
-      </UiButton> */}
+      <ThemeToggle/>
     </div>
   );
 }
@@ -16,7 +15,7 @@ export default function Header() {
 function Logo() {
   return (
     <div className="flex items-end">
-      <span className="font-bold text-primary text-lg">TODO</span>{" "}
+      <span className="font-bold text-primary text-lg">TODO</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="38"

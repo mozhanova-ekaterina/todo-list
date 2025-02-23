@@ -6,3 +6,5 @@ export { ArrowDown } from "./ArrowDown";
 export { CheckIcon } from "./CheckIcon";
 export { CloseIcon } from "./CloseIcon";
 export { ListIcon } from "./ListIcon";
+export { PriorityHighIcon } from './PriorityHighIcon';
+export {ThemeToggleIcon} from './ThemeToggleIcon'

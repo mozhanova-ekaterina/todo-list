@@ -122,10 +122,7 @@ class TaskStore {
         task.title.toLowerCase().includes(this.searchQuery.toLowerCase());
 
       const matchesToday =
-        this.currentFilter === "today" &&
-        task.dueDate &&
-        differenceInMinutes(task.dueDate, new Date()) > 0 &&
-        isToday(task.dueDate);
+        this.currentFilter === "today" && task.dueDate && isToday(task.dueDate);
 
       const matchesOverdue =
         task.dueDate &&

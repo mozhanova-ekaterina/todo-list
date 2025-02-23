@@ -9,7 +9,11 @@ export default {
     ".../path/to/flatpickr/**/*.js",
   ],
   flyonui: {
-    vendors: true // Enable vendor-specific CSS generation
+    vendors: true, // Enable vendor-specific CSS generation
+    themes: [
+      "light",
+      'dark',
+    ],
   },
   theme: {
     extend: {
@@ -19,9 +23,9 @@ export default {
       },
       animation: {
         "slide-up": "slideUp 0.5s ease-out",
-        'spin-slow': 'spin .9s linear',
-        'slide-left': 'slideLeft 0.5s ease-out',
-        'spread': 'spread 0.5s ease-out',
+        "spin-slow": "spin .9s linear",
+        "slide-left": "slideLeft 0.5s ease-out",
+        spread: "spread 0.5s ease-out",
       },
       keyframes: {
         slideUp: {
