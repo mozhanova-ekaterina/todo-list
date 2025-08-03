@@ -19,6 +19,7 @@ class TaskStore {
   }
 
   private loadFromLocalStorage() {
+    if (typeof window === "undefined") return;
     const savedTasks = localStorage.getItem("tasks");
     if (savedTasks) {
       this.tasks = JSON.parse(savedTasks);
@@ -26,6 +27,7 @@ class TaskStore {
   }
 
   private saveToLocalStorage() {
+    if (typeof window === "undefined") return;
     localStorage.setItem("tasks", JSON.stringify(this.tasks));
   }
 
