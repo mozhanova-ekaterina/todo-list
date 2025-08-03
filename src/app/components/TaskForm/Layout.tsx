@@ -18,7 +18,7 @@ export const Layout = ({
   actions,
 }: Props) => {
   return (
-    <form className="flex flex-col gap-3 relative animate-slide-left">
+    <form className="flex flex-col gap-3 relative">
       <h2>{formTitle}</h2>
 
       {titleField}
@@ -32,7 +32,7 @@ export const Layout = ({
         {priorityField}
       </div>
 
-      <div className="flex gap-3 px-1">{actions}</div>
+      <div className="flex flex-wrap gap-3 px-1">{actions}</div>
     </form>
   );
 };

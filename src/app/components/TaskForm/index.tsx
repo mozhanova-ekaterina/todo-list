@@ -76,9 +76,10 @@ export default observer(function TaskForm() {
       actions={
         <>
           <UiButton
-            className="collapse-toggle"
+            className="collapse-toggle xl:btn-lg"
             id="form-collapse-button"
             data-collapse="#form-collapse"
+            size="sm"
           >
             Дополнительно
             <AddIcon className="collapse-open:hidden" />
@@ -86,9 +87,11 @@ export default observer(function TaskForm() {
           </UiButton>
 
           <UiButton
+            className="xl:btn-lg"
             color="primary"
             onClick={() => handleSubmit(newTask)}
             icon={<ListIcon />}
+            size="sm"
           >
             Добавить
           </UiButton>

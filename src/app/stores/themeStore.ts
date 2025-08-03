@@ -32,8 +32,6 @@ class ThemeStore {
     const savedTheme = localStorage.getItem("theme") as TTheme | null;
     if (savedTheme) {
       this.theme = savedTheme;
-      console.log(this.theme);
-
       this.applyThemeToDOM();
     }
   }
@@ -43,7 +41,6 @@ class ThemeStore {
   }
 
   private applyThemeToDOM() {
-    // document.documentElement.classList.toggle("dark", this.isDark);
     if (this.isDark) {
       document.documentElement.dataset.theme = "dark";
     } else {

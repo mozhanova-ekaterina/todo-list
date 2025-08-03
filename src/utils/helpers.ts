@@ -6,3 +6,20 @@ export function dateFormat(date: Date) {
     locale: ru,
   });
 }
+
+export function defineColor(filter: string) {
+  switch (filter) {
+    case "all":
+      return "default";
+    case "today":
+      return "accent";
+    case "active":
+      return "warning";
+    case "completed":
+      return "success";
+    case "overdue":
+      return "error";
+    default:
+      return "default";
+  }
+}

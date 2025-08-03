@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { UiButton, UiTag } from "./uikit";
 import { SortAscIcon } from "./uikit/icons/SortAscIcon";
 import { SortDscIcon } from "./uikit/icons/SortDscIcon";
+import { defineColor } from "@/utils/helpers";
 
 export default observer(function TaskFilters() {
   const filters: TFilter[] = ["all", "today", "active", "completed", "overdue"];
@@ -18,33 +19,38 @@ export default observer(function TaskFilters() {
 
   useEffect(() => {
     taskStore.setSelectedTags(selectedTags);
-  }, [selectedTags]);  
+  }, [selectedTags]);
 
   return (
     <>
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2 py-2 ">
+      <div className="flex justify-between items-start gap-2">
+        <div className="flex flex-wrap xl:flex-nowrap gap-2">
           <SearchInput />
-          {filters.map((filter) => (
-            <UiButton
-              onClick={() => taskStore.setFilter(filter)}
-              variant={taskStore.currentFilter === filter ? "solid" : "outline"}
-              color={defineColor(filter)}
-              size="sm"
-              key={filter}
-            >
-              {filter === "all" && "Все"}
-              {filter === "today" && "Сегодня"}
-              {filter === "active" && "Активные"}
-              {filter === "completed" && "Выполненные"}
-              {filter === "overdue" && "Просроченные"}
-            </UiButton>
-          ))}
+          <div className="flex gap-2">
+            {filters.map((filter) => (
+              <UiButton
+                onClick={() => taskStore.setFilter(filter)}
+                variant={
+                  taskStore.currentFilter === filter ? "solid" : "outline"
+                }
+                color={defineColor(filter)}
+                size="xs"
+                key={filter}
+                className="xl:btn-sm"
+              >
+                {filter === "all" && "Все"}
+                {filter === "today" && "Сегодня"}
+                {filter === "active" && "Активные"}
+                {filter === "completed" && "Выполненные"}
+                {filter === "overdue" && "Просроченные"}
+              </UiButton>
+            ))}
+          </div>
         </div>
         <div className="relative flex gap-2">
           <select
             id="sort-priority"
-            className="select select-floating w-[200px]"
+            className="select select-sm select-floating w-[150px] xl:w-[200px] outline-none"
             onChange={(e) => taskStore.setSorting(e.target.value as TSortKey)}
             value={taskStore.sortKey}
           >
@@ -62,15 +68,20 @@ export default observer(function TaskFilters() {
               onClick={() => taskStore.setSorting(taskStore.sortKey)}
               variant="outline"
               color="primary"
-              // className="animate-spread"
-              icon={taskStore.sortOrder === "asc" ? <SortAscIcon/> : <SortDscIcon/>}
-            >
-            </UiButton>
+              size="sm"
+              icon={
+                taskStore.sortOrder === "asc" ? (
+                  <SortAscIcon />
+                ) : (
+                  <SortDscIcon />
+                )
+              }
+            ></UiButton>
           )}
         </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 py-2">
         {taskStore.tagsList.map((tag) => (
           <UiTag
             className="cursor-pointer"
@@ -97,20 +108,3 @@ export default observer(function TaskFilters() {
     </>
   );
 });
-
-function defineColor(filter: string) {
-  switch (filter) {
-    case "all":
-      return "default";
-    case "today":
-      return "accent";
-    case "active":
-      return "warning";
-    case "completed":
-      return "success";
-    case "overdue":
-      return "error";
-    default:
-      return "default";
-  }
-}
